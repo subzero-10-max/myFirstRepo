@@ -9,5 +9,3 @@ module "acr" {
 
   tags = var.tags
 }
-  
-  #scscsdcdsc
