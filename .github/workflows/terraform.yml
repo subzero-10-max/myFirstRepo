@@ -3,8 +3,8 @@ name: 'Terraform Plan/Apply'
 on: #workflow_dispatch
   push:
     paths:
-      - './code/teraform/**'
-      - './code/terraform2/**'
+      - 'code/teraform/**'
+      - 'code/terraform2/**'
 #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
