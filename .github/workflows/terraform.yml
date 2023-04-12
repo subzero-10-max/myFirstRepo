@@ -40,9 +40,9 @@ jobs:
     - name: Set working directory
       run: |
         if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
-          export MYVAR = ${{github.workspace}}/code/terraform
+          export MYVAR = ./code/teraform
         elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
-          export MYVAR = ${{github.workspace}}/code/terraform2
+          export MYVAR = ./code/terraform2
         fi
       
     - name: git config
