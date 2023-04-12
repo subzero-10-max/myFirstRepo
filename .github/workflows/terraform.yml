@@ -41,10 +41,10 @@ jobs:
     - name: Set working directory
       run: |
         if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
-          export MYVAR=./code/teraform
+          export MYVAR="./code/teraform"
           echo "::set-env name=MYVAR::$MYVAR
         elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
-          export MYVAR=./code/terraform2
+          export MYVAR="./code/terraform2"
           echo "::set-env name=MYVAR::$MYVAR
         fi
       
