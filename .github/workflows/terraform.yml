@@ -1,9 +1,10 @@
 name: 'Terraform Plan/Apply'
 
-on: workflow_dispatch
-#   push:
-#     paths:
-#       - ./**
+on: #workflow_dispatch
+  push:
+    paths:
+      - './code/teraform/**'
+      - './code/terraform2/**'
 #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
@@ -36,6 +37,14 @@ jobs:
       with:
         terraform_wrapper: false
       
+    - name: Set working directory
+      run: |
+        if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
+          export MYVAR = ${{github.workspace}}/code/terraform
+        elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
+          export MYVAR = ${{github.workspace}}/code/terraform2
+        fi
+      
     - name: git config
       run: |
         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
@@ -43,12 +52,12 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
-      working-directory: ./terraform
+      working-directory: $MYVAR
 
     - name: Terraform Validate
       run: terraform validate
-      working-directory: ./terraform
+      working-directory: $MYVAR
     
     - name: Terraform plan
       run: terraform plan
-      working-directory: ./terraform
+      working-directory: $MYVAR
