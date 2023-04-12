@@ -1,5 +1,0 @@
-This is file3.txt
-
-
-
-NEW LINE ADDED
