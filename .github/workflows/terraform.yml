@@ -46,12 +46,12 @@ jobs:
 
     - name: teraform
       if: steps.changes.outputs.teraform == 'true'
-      run: echo "TERAFORM"
+      run: echo "WRK_DIR=./code/teraform" >> $GITHUB_ENV
 
     # run only if 'frontend' files were changed
     - name: terraform2
       if: steps.changes.outputs.terraform2 == 'true'
-      run: echo "TERRAFROM2"
+      run: echo "WRK_DIR=./code/terraform2" >> $GITHUB_ENV
 #     - name: directory
 #       run: |
 #         pwd
@@ -60,12 +60,11 @@ jobs:
 #       run: |
 #         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
-#     - name: Print working directory
+    - name: Print working directory
 #       env:
 #         folder: ${{ env.MYVAR }}
-#       run: |
-#         echo "WORKSPACE is $WORKSPACE"
-#         echo "DIR is $DIR"
+      run: |
+        echo "WRK_DIR is $WRK_DIR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
