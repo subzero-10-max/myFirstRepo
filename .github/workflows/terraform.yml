@@ -3,8 +3,9 @@ name: 'Terraform Plan/Apply'
 on: #workflow_dispatch
   push:
     paths:
-      - 'code/teraform/**'
-      - 'code/terraform2/**'
+#       - 'code/teraform/**'
+#       - 'code/terraform2/**'
+      - 'code/**'
 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
@@ -33,40 +34,21 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_wrapper: false
-      
-#     - name: Set working directory
-#       run: |
-#         if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
-#           echo "::set-env name=MYVAR::${{ github.workspace }}"
-#         elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
-#           export MYVAR="./code/terraform2"
-#           echo "::set-env name=MYVAR::${{ github.workspace }}"
-#         fi
-
-#     - name: Check which folder has been changed
-#       run: |
-#         if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform/"; then
-#           echo "MYVAR=./code/terraform" >> $GITHUB_ENV
-#         elif git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform2/"; then
-#           echo "MYVAR=./code/terraform2" >> $GITHUB_ENV
-#         fi
         
-#     - name: Determine working directory
-#       run: |
-#         if [[ "${{ github.event.head_commit.modified }}" == *"/teraform"* ]]; then
-#           echo "::set-env name=MYVAR::./code/teraform"
-#         elif [[ "${{ github.event.head_commit.modified }}" == *"terraform2"* ]]; then
-#           echo "::set-env name=MYVAR::./code/terraform2"
-#         else
-#           echo "No changes in Terraform directories"
-#           exit 1
-#         fi
-
-
-
-    - name: set variable
+    - name: Determine working directory
+      id: determine-directory
       run: |
-        echo "MYVAR=./code/teraform" >> $GITHUB_ENV
+        if [[ "$GITHUB_EVENT_PATH" ]]; then
+          folder=$(dirname "${{ fromJSON(toString(github.event_path)) }}")
+        else
+          folder=""
+        fi
+        echo "::set-output name=folder::$folder"
+
+
+#     - name: set variable
+#       run: |
+#         echo "MYVAR=./code/teraform" >> $GITHUB_ENV
         
 
     - name: git config
@@ -75,9 +57,9 @@ jobs:
         
     - name: Print working directory
       env:
-        MYVAR: ${{ env.MYVAR }}
+        folder: ${{ env.folder }}
       run: |
-        echo "MYVAR is $MYVAR"
+        echo "folder is $folder"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
