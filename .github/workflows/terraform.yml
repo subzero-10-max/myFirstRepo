@@ -43,13 +43,13 @@ jobs:
 #           echo "::set-env name=MYVAR::${{ github.workspace }}"
 #         fi
 
-    - name: Check which folder has been changed
-      run: |
-        if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform/"; then
-          echo "MYVAR=./code/terraform" >> $GITHUB_ENV
-        elif git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform2/"; then
-          echo "MYVAR=./code/terraform2" >> $GITHUB_ENV
-        fi
+#     - name: Check which folder has been changed
+#       run: |
+#         if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform/"; then
+#           echo "MYVAR=./code/terraform" >> $GITHUB_ENV
+#         elif git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform2/"; then
+#           echo "MYVAR=./code/terraform2" >> $GITHUB_ENV
+#         fi
         
 #     - name: Determine working directory
 #       run: |
@@ -64,10 +64,10 @@ jobs:
 
 
 
-#     - name: set variable
-#       run: |
-#         echo "MYVAR=./code/teraform" >> $GITHUB_ENV
-#         export $MYVAR
+    - name: set variable
+      run: |
+        echo "MYVAR=./code/teraform" >> $GITHUB_ENV
+        
 
     - name: git config
       run: |
