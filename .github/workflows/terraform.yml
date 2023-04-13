@@ -45,17 +45,38 @@ jobs:
 #           export MYVAR="./code/terraform2"
 #           echo "::set-env name=MYVAR::${{ github.workspace }}"
 #         fi
+
+#     - name: Check which folder has been changed
+#       run: |
+#         if git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform/"; then
+#           echo "terraform has been changed"
+#           MYVAR="./code/terraform"
+#         elif git diff --name-only ${{ github.base_ref }}...${{ github.head_ref }} | grep -q "^code/terraform2/"; then
+#           echo "terraform2 has been changed"
+#           MYVAR="./code/terraform2"
+#         fi
         
-    - name: Determine working directory
+#     - name: Determine working directory
+#       run: |
+#         if [[ "${{ github.event.head_commit.modified }}" == *"/teraform"* ]]; then
+#           echo "::set-env name=MYVAR::./code/teraform"
+#         elif [[ "${{ github.event.head_commit.modified }}" == *"terraform2"* ]]; then
+#           echo "::set-env name=MYVAR::./code/terraform2"
+#         else
+#           echo "No changes in Terraform directories"
+#           exit 1
+#         fi
+    - name: Set Working Directory
       run: |
-        if [[ "${{ github.event.head_commit.modified }}" == *"/teraform"* ]]; then
-          echo "::set-env name=MYVAR::./code/teraform"
-        elif [[ "${{ github.event.head_commit.modified }}" == *"terraform2"* ]]; then
-          echo "::set-env name=MYVAR::./code/terraform2"
-        else
-          echo "No changes in Terraform directories"
-          exit 1
+        if [[ -d "code/terraform" ]]; then
+          MYVAR="./code/terraform"
+        elif [[ -d "code/terraform2" ]]; then
+          MYVAR="./code/terraform2"
         fi
+
+#     - name: Set environment variable
+#       run: |
+#         echo "MYVAR=$MYVAR" >> $GITHUB_ENV
 
     - name: git config
       run: |
