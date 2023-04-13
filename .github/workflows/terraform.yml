@@ -3,18 +3,15 @@ name: 'Terraform Plan/Apply'
 on: #workflow_dispatch
   push:
     paths:
-      - 'code/**'
-#       - 'code/terraform2/**'
-#These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
+      - 'code/teraform/**'
+      - 'code/terraform2/**'
+
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
-#   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
   PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-#   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
   terraform-plan:
@@ -68,7 +65,7 @@ jobs:
 #         fi
     - name: Set Working Directory
       run: |
-        if [[ -d "code/terraform" ]]; then
+        if [[ -d "code/teraform" ]]; then
           MYVAR="./code/terraform"
         elif [[ -d "code/terraform2" ]]; then
           MYVAR="./code/terraform2"
@@ -83,8 +80,10 @@ jobs:
         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
     - name: Print working directory
+      env:
+        MYVAR: ${{ env.MYVAR }}
       run: |
-        echo "Working directory: ${{ env.MYVAR }}"
+        echo "MYVAR is $MYVAR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
