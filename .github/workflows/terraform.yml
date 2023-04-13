@@ -25,10 +25,17 @@ jobs:
 #       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
     steps:
+    
+    - name: before checkout
+      run: echo "$GITHUB_WORKSPACE"
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
 
+
+    - name: after checkout
+      run: echo "$GITHUB_WORKSPACE"
+      
     # Install the latest version of the Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
