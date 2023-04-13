@@ -41,11 +41,10 @@ jobs:
     - name: Set working directory
       run: |
         if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
-          export MYVAR="./code/teraform"
-          echo "::set-env name=MYVAR::$MYVAR
+          echo "::set-env name=MYVAR::${{ github.workspace }}"
         elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
           export MYVAR="./code/terraform2"
-          echo "::set-env name=MYVAR::$MYVAR
+          echo "::set-env name=MYVAR::${{ github.workspace }}"
         fi
       
     - name: git config
@@ -53,7 +52,7 @@ jobs:
         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
     - name: print MYVAR
-      run : echo ${{ env.MYVAR }}
+      run : echo "MYVAR=${MYVAR}"
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
 #     - name: Terraform Init
