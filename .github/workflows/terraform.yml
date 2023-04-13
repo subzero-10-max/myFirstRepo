@@ -59,7 +59,8 @@ jobs:
           fi
     - name: Set working directory
       run: |
-          echo "MYVAR=${{ github.workspace }}/${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
+          echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+          echo "DIR=${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
       
 
 
@@ -79,7 +80,8 @@ jobs:
       env:
         folder: ${{ env.MYVAR }}
       run: |
-        echo "MYVAR is $MYVAR"
+        echo "WORKSPACE is $WORKSPACE"
+        echo "DIR is $DIR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
