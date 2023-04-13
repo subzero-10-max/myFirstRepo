@@ -78,7 +78,7 @@ jobs:
 
     - name: set variable
       run: |
-        echo "MYVAR=./code/teraform"
+        echo "MYVAR=./code/teraform" >> $GITHUB_ENV
         export $MYVAR
 
     - name: git config
