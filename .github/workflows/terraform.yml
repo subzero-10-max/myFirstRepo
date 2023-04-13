@@ -35,80 +35,21 @@ jobs:
       with:
         terraform_wrapper: false
         
-#     - name: Determine working directory
-#       id: determine-directory
-#       run: |
-#         if [[ "$GITHUB_EVENT_PATH" ]]; then
-#           folder=$(dirname "${{ fromJSON(toString(github.event_path)) }}")
-#         else
-#           folder=""
-#         fi
-#         echo "::set-output name=folder::$folder"
-# if [ -d "code/teraform" ]; then
-#             echo "::set-output name=directory::code/teraform"
-#           elif [ -d "code/terraform2" ]; then
-#             echo "::set-output name=directory::code/terraform2"
-#           fi
-#     - name: Determine working directory
-#       id: set-directory
-#       run: |
-#           if [ -d "${{ github.event.inputs.path }}/teraform" ]; then
-#             echo "::set-output name=directory::${{ github.event.inputs.path }}/teraform"
-#           elif [ -d "${{ github.event.inputs.path }}/terraform2" ]; then
-#             echo "::set-output name=directory::${{ github.event.inputs.path }}/terraform2"
-#           fi
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          teraform:
+            - 'code/teraform/**'
+          terraform2:
+            - 'code/terraform2/**'
 
-#     - name: Determine changed folder
-#       run: |
-#         changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
-#         for file in $changed_files; do
-#           if [[ $file == "code/teraform"* ]]; then
-#             echo "Changes made in Teraform folder"
-#           elif [[ $file == "code/terraform2"* ]]; then
-#             echo "Changes made in Terraform2 folder"
-#           fi
-#         done
-
-#     - name: Get latest commit hash
-#       id: get_commit_hash
-#       run: echo "::set-output name=hash::$(git rev-parse HEAD)"
-
-#     - name: Determine changed folder
-#       run: |
-#         changed_files=$(git diff --name-only ${GITHUB_SHA} ${GITHUB_BASE_REF})
-#         for file in $changed_files; do
-#           if [[ $file == "code/teraform"* ]]; then
-#             echo "Changes made in Teraform folder"
-#           elif [[ $file == "code/terraform2"* ]]; then
-#             echo "Changes made in Terraform2 folder"
-#           fi
-#         done
-        
-    - name: Determine changed folder
-      run: |
-        # Get list of files changed in this push event
-        changed_files=$(git diff --name-only HEAD^ HEAD)
-
-
-        # Loop through changed files and check if they belong to "terraform" or "terraform2" folder
-        for file in $changed_files; do
-          if [[ $file == "code/teraform"* ]]; then
-            echo "Changes made in Teraform folder"
-          elif [[ $file == "code/terraform2"* ]]; then
-            echo "Changes made in Terraform2 folder"
-          fi
-        done
-#     - name: Set working directory
-#       run: |
-#           echo "DIR=${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
-#           echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-          
+      # run only if some file in 'src' folder was changed
+    - if: steps.changes.outputs.teraform == 'true'
+      run: echo "TERAFORM"
       
-
-
-#     - name: set variable
-#       run: |
-#         echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
+    - if: steps.changes.outputs.terraform == 'true'
+      run: echo "TERRAFROM2"
         
 #     - name: directory
 #       run: |
