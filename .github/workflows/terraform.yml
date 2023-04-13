@@ -44,13 +44,14 @@ jobs:
           terraform2:
             - 'code/terraform2/**'
 
-      # run only if some file in 'src' folder was changed
-    - if: steps.changes.outputs.teraform == 'true'
+    - name: teraform
+      if: steps.changes.outputs.teraform == 'true'
       run: echo "TERAFORM"
-      
-    - if: steps.changes.outputs.terraform == 'true'
+
+    # run only if 'frontend' files were changed
+    - name: terraform2
+      if: steps.changes.outputs.terraform2 == 'true'
       run: echo "TERRAFROM2"
-        
 #     - name: directory
 #       run: |
 #         pwd
