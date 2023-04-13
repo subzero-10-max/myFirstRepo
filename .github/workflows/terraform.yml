@@ -35,20 +35,20 @@ jobs:
       with:
         terraform_wrapper: false
         
-    - name: Determine working directory
-      id: determine-directory
-      run: |
-        if [[ "$GITHUB_EVENT_PATH" ]]; then
-          folder=$(dirname "${{ fromJSON(toString(github.event_path)) }}")
-        else
-          folder=""
-        fi
-        echo "::set-output name=folder::$folder"
-
-
-#     - name: set variable
+#     - name: Determine working directory
+#       id: determine-directory
 #       run: |
-#         echo "MYVAR=./code/teraform" >> $GITHUB_ENV
+#         if [[ "$GITHUB_EVENT_PATH" ]]; then
+#           folder=$(dirname "${{ fromJSON(toString(github.event_path)) }}")
+#         else
+#           folder=""
+#         fi
+#         echo "::set-output name=folder::$folder"
+
+
+    - name: set variable
+      run: |
+        echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
         
 
     - name: git config
