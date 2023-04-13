@@ -45,12 +45,25 @@ jobs:
 #         fi
 #         echo "::set-output name=folder::$folder"
 
+    - name: Set Working Directory
+      run: |
+        if [ -n "${{ github.event.head_commit.modified }}" ]; then
+          if echo "${{ github.event.head_commit.modified }}" | grep -q 'code/teraform'; then
+            cd code/teraform
+          elif echo "${{ github.event.head_commit.modified }}" | grep -q 'code/terraform2'; then
+            cd code/terraform2
+          fi
+        fi
 
+
+#     - name: set variable
+#       run: |
+#         echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
+        
     - name: set variable
       run: |
-        echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
+        pwd
         
-
     - name: git config
       run: |
         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
