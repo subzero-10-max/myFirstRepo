@@ -57,9 +57,9 @@ jobs:
 #       with:
 #         path: $WRK_DIR
       
-    - name: git config
-      run: |
-        git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
+#    - name: git config
+#      run: |
+#        git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
 #     - name: Print working directory
 # #       env:
