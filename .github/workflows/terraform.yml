@@ -45,40 +45,37 @@ jobs:
 #         fi
 #         echo "::set-output name=folder::$folder"
 
-    - name: Set Working Directory
+    - name: Determine working directory
+      id: set-directory
       run: |
-        if [ -n "${{ github.event.head_commit.modified }}" ]; then
-          if echo "${{ github.event.head_commit.modified }}" | grep -q 'code/teraform'; then
-            cd code/teraform
-          elif echo "${{ github.event.head_commit.modified }}" | grep -q 'code/terraform2'; then
-            cd code/terraform2
+          if [ -d "code/teraform" ]; then
+            echo "::set-output name=directory::teraform"
+          elif [ -d "code/terraform2" ]; then
+            echo "::set-output name=directory::terraform2"
           fi
-        fi
+    - name: Set working directory
+      run: |
+          echo "MYVAR=${{ github.workspace }}/${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
+      
 
 
 #     - name: set variable
 #       run: |
 #         echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
         
-    - name: set variable
+    - name: directory
       run: |
         pwd
         
-    - name: git config
-      run: |
-        git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
+#     - name: git config
+#       run: |
+#         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
     - name: Print working directory
       env:
-        folder: ${{ env.folder }}
+        folder: ${{ env.MYVAR }}
       run: |
-        echo "folder is $GITHUB_WORKSPACE"
-        
-    - name: Print working directory
-      env:
-        folder: ${{ env.folder }}
-      run: |
-        echo "folder is $GITHUB_ACTOR"
+        echo "MYVAR is $MYVAR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
