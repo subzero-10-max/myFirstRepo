@@ -1,9 +1,10 @@
 name: 'Terraform Plan/Apply'
 
-on: workflow_dispatch
-#   push:
-#     paths:
-#       - 'code/teraform/**'
+on: #workflow_dispatch
+  push:
+    paths:
+      - 'code/**'
+#       teraform/**'
 #       - 'code/terraform2/**'
 
 env:
@@ -63,23 +64,23 @@ jobs:
 #           echo "No changes in Terraform directories"
 #           exit 1
 #         fi
-#     - name: Set Working Directory
-#       run: |
-#         if [[ -d "code/teraform" ]]; then
-#           MYVAR="./code/terraform"
-#         elif [[ -d "code/terraform2" ]]; then
-#           MYVAR="./code/terraform2"
-#         fi
+    - name: Set Working Directory
+      run: |
+        if [[ -d "code/teraform" ]]; then
+          MYVAR="./code/terraform" >> $GITHUB_ENV
+        elif [[ -d "code/terraform2" ]]; then
+          MYVAR="./code/terraform2" >> $GITHUB_ENV
+        fi
 
 #     - name: Set environment variable
 #       run: |
 #         echo "MYVAR=$MYVAR" >> $GITHUB_ENV
 
 
-    - name: set variable
-      run: |
-        echo "MYVAR=./code/teraform" >> $GITHUB_ENV
-        export $MYVAR
+#     - name: set variable
+#       run: |
+#         echo "MYVAR=./code/teraform" >> $GITHUB_ENV
+#         export $MYVAR
 
     - name: git config
       run: |
