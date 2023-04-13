@@ -46,12 +46,12 @@ jobs:
 
     - name: teraform
       if: steps.changes.outputs.teraform == 'true'
-      run: echo "WRK_DIR=./code/teraform" >> $GITHUB_ENV
+      run: echo "WRK_DIR=code/teraform" >> $GITHUB_ENV
 
     # run only if 'frontend' files were changed
     - name: terraform2
       if: steps.changes.outputs.terraform2 == 'true'
-      run: echo "WRK_DIR=./code/terraform2" >> $GITHUB_ENV
+      run: echo "WRK_DIR=code/terraform2" >> $GITHUB_ENV
 #     - name: directory
 #       run: |
 #         pwd
