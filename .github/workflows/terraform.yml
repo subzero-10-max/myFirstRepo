@@ -87,7 +87,7 @@ jobs:
     - name: Determine changed folder
       run: |
         # Get list of files changed in this push event
-        changed_files=$(git diff --name-only HEAD^ -- HEAD)
+        changed_files=$(git diff --name-only HEAD^ HEAD)
 
 
         # Loop through changed files and check if they belong to "terraform" or "terraform2" folder
