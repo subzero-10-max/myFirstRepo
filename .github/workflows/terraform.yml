@@ -44,14 +44,18 @@ jobs:
 #           folder=""
 #         fi
 #         echo "::set-output name=folder::$folder"
-
+# if [ -d "code/teraform" ]; then
+#             echo "::set-output name=directory::code/teraform"
+#           elif [ -d "code/terraform2" ]; then
+#             echo "::set-output name=directory::code/terraform2"
+#           fi
     - name: Determine working directory
       id: set-directory
       run: |
-          if [ -d "code/teraform" ]; then
-            echo "::set-output name=directory::code/teraform"
-          elif [ -d "code/terraform2" ]; then
-            echo "::set-output name=directory::code/terraform2"
+          if [ -d "${{ github.event.inputs.path }}/teraform" ]; then
+            echo "::set-output name=directory::${{ github.event.inputs.path }}/teraform"
+          elif [ -d "${{ github.event.inputs.path }}/terraform2" ]; then
+            echo "::set-output name=directory::${{ github.event.inputs.path }}/terraform2"
           fi
     - name: Set working directory
       run: |
