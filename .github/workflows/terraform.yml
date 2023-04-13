@@ -77,10 +77,14 @@ jobs:
         terraform init
 #       working-directory: ${{ env.WRK_DIR }}
 
-#     - name: Terraform Validate
-#       run: terraform validate
+    - name: Terraform Validate
+      run: |
+        cd $WRK_DIR
+        terraform validate
 #       working-directory: $WRK_DIR
     
-#     - name: Terraform plan
-#       run: terraform plan
+    - name: Terraform plan
+      run: |
+        cd $WRK_DIR
+        terraform plan
 #       working-directory: $WRK_DIR
