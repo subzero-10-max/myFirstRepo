@@ -58,7 +58,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        path: $WRK_DIR
+        path: $GITHUB_WORKSPACE/$WRK_DIR
       
     - name: git config
       run: |
