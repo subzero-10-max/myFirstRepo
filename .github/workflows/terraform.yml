@@ -1,10 +1,10 @@
 name: 'Terraform Plan/Apply'
 
-on: #workflow_dispatch
-  push:
-    paths:
-      - 'code/teraform/**'
-      - 'code/terraform2/**'
+on: workflow_dispatch
+#   push:
+#     paths:
+#       - 'code/teraform/**'
+#       - 'code/terraform2/**'
 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
@@ -63,17 +63,23 @@ jobs:
 #           echo "No changes in Terraform directories"
 #           exit 1
 #         fi
-    - name: Set Working Directory
-      run: |
-        if [[ -d "code/teraform" ]]; then
-          MYVAR="./code/terraform"
-        elif [[ -d "code/terraform2" ]]; then
-          MYVAR="./code/terraform2"
-        fi
+#     - name: Set Working Directory
+#       run: |
+#         if [[ -d "code/teraform" ]]; then
+#           MYVAR="./code/terraform"
+#         elif [[ -d "code/terraform2" ]]; then
+#           MYVAR="./code/terraform2"
+#         fi
 
 #     - name: Set environment variable
 #       run: |
 #         echo "MYVAR=$MYVAR" >> $GITHUB_ENV
+
+
+    - name: set variable
+      run: |
+        echo "MYVAR=./code/teraform"
+        export $MYVAR
 
     - name: git config
       run: |
