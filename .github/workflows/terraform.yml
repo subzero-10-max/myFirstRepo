@@ -59,7 +59,13 @@ jobs:
       env:
         folder: ${{ env.folder }}
       run: |
-        echo "folder is $GITHUB_EVENT_PATH"
+        echo "folder is $GITHUB_WORKSPACE"
+        
+    - name: Print working directory
+      env:
+        folder: ${{ env.folder }}
+      run: |
+        echo "folder is $GITHUB_ACTOR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
