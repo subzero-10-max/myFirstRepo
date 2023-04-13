@@ -49,9 +49,9 @@ jobs:
       id: set-directory
       run: |
           if [ -d "code/teraform" ]; then
-            echo "::set-output name=directory::teraform"
+            echo "::set-output name=directory::code/teraform"
           elif [ -d "code/terraform2" ]; then
-            echo "::set-output name=directory::terraform2"
+            echo "::set-output name=directory::code/terraform2"
           fi
     - name: Set working directory
       run: |
