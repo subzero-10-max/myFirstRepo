@@ -3,8 +3,8 @@ name: 'Terraform Plan/Apply'
 on: #workflow_dispatch
   push:
     paths:
-      - 'code/teraform/**'
-      - 'code/terraform2/**'
+      - 'code/**'
+#       - 'code/terraform2/**'
 #These environment variables are used by the terraform azure provider to setup OIDD authenticate. 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
@@ -23,7 +23,6 @@ jobs:
     env:
       #this is needed since we are running terraform with read-only permissions
       ARM_SKIP_PROVIDER_REGISTRATION: true
-      MYVAR: ""
 #     outputs:
 #       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
@@ -38,21 +37,34 @@ jobs:
       with:
         terraform_wrapper: false
       
-    - name: Set working directory
+#     - name: Set working directory
+#       run: |
+#         if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
+#           echo "::set-env name=MYVAR::${{ github.workspace }}"
+#         elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
+#           export MYVAR="./code/terraform2"
+#           echo "::set-env name=MYVAR::${{ github.workspace }}"
+#         fi
+        
+    - name: Determine working directory
       run: |
-        if [[ $GITHUB_EVENT_PATH == *"teraform"* ]]; then
-          echo "::set-env name=MYVAR::${{ github.workspace }}"
-        elif [[ $GITHUB_EVENT_PATH == *"terraform2"* ]]; then
-          export MYVAR="./code/terraform2"
-          echo "::set-env name=MYVAR::${{ github.workspace }}"
+        if [[ "${{ github.event.head_commit.modified }}" == *"/teraform"* ]]; then
+          echo "::set-env name=MYVAR::./code/teraform"
+        elif [[ "${{ github.event.head_commit.modified }}" == *"terraform2"* ]]; then
+          echo "::set-env name=MYVAR::./code/terraform2"
+        else
+          echo "No changes in Terraform directories"
+          exit 1
         fi
-      
+
     - name: git config
       run: |
         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
-    - name: print MYVAR
-      run : echo "MYVAR=${MYVAR}"
+    - name: Print working directory
+      run: |
+        echo "Working directory: ${{ env.MYVAR }}"
+
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
 #     - name: Terraform Init
