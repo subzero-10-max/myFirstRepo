@@ -25,16 +25,9 @@ jobs:
 #       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
 
     steps:
-    
-    - name: before checkout
-      run: echo "$GITHUB_WORKSPACE"
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-
-
-    - name: after checkout
-      run: echo "$GITHUB_WORKSPACE"
       
     # Install the latest version of the Terraform CLI
     - name: Setup Terraform
@@ -55,17 +48,14 @@ jobs:
       if: steps.changes.outputs.teraform == 'true'
       run: echo "WRK_DIR=code/teraform" >> $GITHUB_ENV
 
-    # run only if 'frontend' files were changed
     - name: terraform2
       if: steps.changes.outputs.terraform2 == 'true'
       run: echo "WRK_DIR=code/terraform2" >> $GITHUB_ENV
-#     - name: directory
-#       run: |
-#         pwd
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: $GITHUB_WORKSPACE/$WRK_DIR
+
+#     - name: Checkout
+#       uses: actions/checkout@v3
+#       with:
+#         path: $WRK_DIR
       
     - name: git config
       run: |
@@ -82,7 +72,9 @@ jobs:
     - name: Terraform Init
 #       env:
 #         WRK_DIR: $WRK_DIR
-      run: terraform init
+      run: |
+        cd $WRK_DIR
+        terraform init
 #       working-directory: ${{ env.WRK_DIR }}
 
 #     - name: Terraform Validate
