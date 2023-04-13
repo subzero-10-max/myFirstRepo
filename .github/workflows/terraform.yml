@@ -56,26 +56,26 @@ jobs:
 #       run: |
 #         pwd
         
-#     - name: git config
-#       run: |
-#         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
-        
-    - name: Print working directory
-#       env:
-#         folder: ${{ env.MYVAR }}
+    - name: git config
       run: |
-        echo "WRK_DIR is $WRK_DIR"
+        git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
+        
+#     - name: Print working directory
+# #       env:
+# #         folder: ${{ env.MYVAR }}
+#       run: |
+#         echo "WRK_DIR is $WRK_DIR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-#     - name: Terraform Init
-#       run: terraform init
-#       working-directory: $MYVAR
+    - name: Terraform Init
+      run: terraform init
+      working-directory: $WRK_DIR
 
-#     - name: Terraform Validate
-#       run: terraform validate
-#       working-directory: $MYVAR
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: $WRK_DIR
     
-#     - name: Terraform plan
-#       run: terraform plan
-#       working-directory: $MYVAR
+    - name: Terraform plan
+      run: terraform plan
+      working-directory: $WRK_DIR
