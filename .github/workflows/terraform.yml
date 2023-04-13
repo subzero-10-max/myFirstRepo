@@ -49,18 +49,31 @@ jobs:
 #           elif [ -d "code/terraform2" ]; then
 #             echo "::set-output name=directory::code/terraform2"
 #           fi
-    - name: Determine working directory
-      id: set-directory
+#     - name: Determine working directory
+#       id: set-directory
+#       run: |
+#           if [ -d "${{ github.event.inputs.path }}/teraform" ]; then
+#             echo "::set-output name=directory::${{ github.event.inputs.path }}/teraform"
+#           elif [ -d "${{ github.event.inputs.path }}/terraform2" ]; then
+#             echo "::set-output name=directory::${{ github.event.inputs.path }}/terraform2"
+#           fi
+
+    - name: Determine changed folder
       run: |
-          if [ -d "${{ github.event.inputs.path }}/teraform" ]; then
-            echo "::set-output name=directory::${{ github.event.inputs.path }}/teraform"
-          elif [ -d "${{ github.event.inputs.path }}/terraform2" ]; then
-            echo "::set-output name=directory::${{ github.event.inputs.path }}/terraform2"
+        changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+        for file in $changed_files; do
+          if [[ $file == "code/terraform"* ]]; then
+            echo "Changes made in Terraform folder"
+          elif [[ $file == "code/terraform2"* ]]; then
+            echo "Changes made in Terraform2 folder"
           fi
-    - name: Set working directory
-      run: |
-          echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-          echo "DIR=${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
+        done
+        
+#     - name: Set working directory
+#       run: |
+#           echo "DIR=${{ steps.set-directory.outputs.directory }}" >> $GITHUB_ENV
+#           echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
+          
       
 
 
@@ -68,20 +81,20 @@ jobs:
 #       run: |
 #         echo "MYVAR=$GITHUB_EVENT_PATH" >> $GITHUB_ENV
         
-    - name: directory
-      run: |
-        pwd
+#     - name: directory
+#       run: |
+#         pwd
         
 #     - name: git config
 #       run: |
 #         git config --global url."https://${PERSONAL_ACCESS_TOKEN}@github.com".insteadOf "https://github.com"
         
-    - name: Print working directory
-      env:
-        folder: ${{ env.MYVAR }}
-      run: |
-        echo "WORKSPACE is $WORKSPACE"
-        echo "DIR is $DIR"
+#     - name: Print working directory
+#       env:
+#         folder: ${{ env.MYVAR }}
+#       run: |
+#         echo "WORKSPACE is $WORKSPACE"
+#         echo "DIR is $DIR"
 
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
