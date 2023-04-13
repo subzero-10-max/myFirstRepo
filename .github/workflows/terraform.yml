@@ -87,12 +87,13 @@ jobs:
     - name: Determine changed folder
       run: |
         # Get list of files changed in this push event
-        changed_files=$(git diff --name-only ${GITHUB_SHA}^..${GITHUB_SHA})
+        changed_files=$(git diff --name-only HEAD^..HEAD)
+
 
         # Loop through changed files and check if they belong to "terraform" or "terraform2" folder
         for file in $changed_files; do
-          if [[ $file == "code/terraform"* ]]; then
-            echo "Changes made in Terraform folder"
+          if [[ $file == "code/teraform"* ]]; then
+            echo "Changes made in Teraform folder"
           elif [[ $file == "code/terraform2"* ]]; then
             echo "Changes made in Terraform2 folder"
           fi
