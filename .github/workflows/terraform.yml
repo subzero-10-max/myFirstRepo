@@ -62,8 +62,8 @@ jobs:
       run: |
         changed_files=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
         for file in $changed_files; do
-          if [[ $file == "code/terraform"* ]]; then
-            echo "Changes made in Terraform folder"
+          if [[ $file == "code/teraform"* ]]; then
+            echo "Changes made in Teraform folder"
           elif [[ $file == "code/terraform2"* ]]; then
             echo "Changes made in Terraform2 folder"
           fi
