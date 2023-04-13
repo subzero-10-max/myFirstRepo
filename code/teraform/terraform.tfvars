@@ -1,4 +1,4 @@
-esource_group_name = "tempRG1"
+resource_group_name = "tempRG1"
 location            = "East US"
 
 acr_name = "appserviceacr1974"
