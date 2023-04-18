@@ -49,6 +49,10 @@ jobs:
     - name: Terraform Format
       working-directory: code/teraform/
       run: terraform fmt
+      
+    - name: terraform validate
+      working-directory: code/teraform
+      run: terraform validate
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
