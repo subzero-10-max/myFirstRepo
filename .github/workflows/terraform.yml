@@ -1,10 +1,10 @@
 name: 'Terraform Plan/Apply'
 
-on: #workflow_dispatch
-  push:
-    paths:
-      - 'code/teraform/**'
-      - 'code/terraform2/**'
+on: workflow_dispatch
+#  push:
+#    paths:
+#      - 'code/teraform/**'
+#      - 'code/terraform2/**'
 #       - 'code/**'
 
 env:
