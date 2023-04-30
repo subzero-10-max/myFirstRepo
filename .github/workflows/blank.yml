@@ -1,11 +1,11 @@
 name: 'Terraform Plan/Apply'
 
-on: workflow_dispatch
-#  push:
-#    paths:
-#      - 'code/teraform/**'
-#      - 'code/terraform2/**'
-#       - 'code/**'
+on: #workflow_dispatch
+ push:
+   paths:
+     - 'code/teraform/**'
+     - 'code/terraform2/**'
+     - 'code/**'
 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
