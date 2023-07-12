@@ -50,3 +50,7 @@ jobs:
     - name: Terraform Plan
       working-directory: code/Config
       run: terraform plan
+      
+#     - name: Terraform Apply
+#       working-directory: code/Config
+#       run: terraform apply
