@@ -51,6 +51,6 @@ jobs:
       working-directory: code/Config
       run: terraform plan -var="password=${{ secrets.VM_PASSWORD }}"
       
-#     - name: Terraform Apply
-#       working-directory: code/Config
-#       run: terraform apply
+    - name: Terraform Apply
+      working-directory: code/Config
+      run: terraform apply -var="password=${{ secrets.VM_PASSWORD }}"
