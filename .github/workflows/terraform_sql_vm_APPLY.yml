@@ -10,7 +10,7 @@ env:
   VM_PASSWORD: "${{ secrets.VM_PASSWORD }}"
 
 jobs:
-  terraform-plan:
+  terraform-apply:
     name: 'Terraform Plan'
     runs-on: ubuntu-latest
     env:
