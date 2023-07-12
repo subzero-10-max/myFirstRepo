@@ -1,13 +1,19 @@
 name: 'SQLVM_TERRAFORM_Apply'
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      password:
+        description: "Enter password for vm: "
+        default: "P@$$w0rD1234"
+        type: "string"
 
 env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
   ARM_CLIENT_SECRET: "${{ secrets.AZURE_CLIENT_SECRET }}"
-  VM_PASSWORD: "${{ secrets.VM_PASSWORD }}"
+#   VM_PASSWORD: "${{ secrets.VM_PASSWORD }}"
 
 jobs:
   terraform-apply:
@@ -49,8 +55,8 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       working-directory: code/Config
-      run: terraform plan -var="password=${{ secrets.VM_PASSWORD }}"
+      run: terraform plan -var="password=${{ inputs.password }}"
       
-    - name: Terraform Apply
-      working-directory: code/Config
-      run: terraform apply --auto-approve -var="password=${{ secrets.VM_PASSWORD }}"
+#     - name: Terraform Apply
+#       working-directory: code/Config
+#       run: terraform apply --auto-approve -var="password=${{ secrets.VM_PASSWORD }}"
