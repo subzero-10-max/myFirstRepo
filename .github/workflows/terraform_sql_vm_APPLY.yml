@@ -1,4 +1,4 @@
-name: 'SQLVM_TERRAFORM'
+name: 'SQLVM_TERRAFORM_Apply'
 
 on: workflow_dispatch
 
