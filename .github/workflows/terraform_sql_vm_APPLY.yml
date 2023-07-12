@@ -53,4 +53,4 @@ jobs:
       
     - name: Terraform Apply
       working-directory: code/Config
-      run: terraform apply -var="password=${{ secrets.VM_PASSWORD }}"
+      run: terraform apply --auto-approve -var="password=${{ secrets.VM_PASSWORD }}"
