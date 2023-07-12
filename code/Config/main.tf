@@ -31,6 +31,7 @@ module "Subnet" {
   depends_on = [module.Virtual_Network]
 }
 
+
 module "Public_Ip" {
   source = "../module/public_ip"
 
@@ -39,7 +40,10 @@ module "Public_Ip" {
   location            = local.location
   name                = each.value.name
   allocation_method   = each.value.allocation_method
+
+  depends_on = [module.Resource_Group]
 }
+
 
 module "Network_Interface" {
   source = "../module/network_interface"
@@ -56,6 +60,8 @@ module "Network_Interface" {
 
   depends_on = [module.Subnet, module.Public_Ip]
 }
+
+
 module "Network_Security_Group" {
   source = "../module/network_security_group"
 
@@ -66,6 +72,7 @@ module "Network_Security_Group" {
 
   depends_on = [module.Resource_Group]
 }
+
 
 module "Security_Rule" {
   source = "../module/security_rule"
@@ -82,12 +89,17 @@ module "Security_Rule" {
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
   network_security_group_name = each.value.network_security_group_name
+
   depends_on                  = [module.Network_Security_Group]
 }
+
+
 resource "azurerm_network_interface_security_group_association" "example" {
   network_interface_id      = module.Network_Interface["vm-nic"].id
   network_security_group_id = module.Network_Security_Group["vm_security_group"].id
 }
+
+
 module "Windows_Virtual_Machine" {
   source = "../module/windows_virtual_machine"
 
